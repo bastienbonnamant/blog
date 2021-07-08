@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="">
+        <h2 class="text-5xl font-normal leading-normal mt-0 mb-2 text-blueGray-800">{{ article.title }}</h2>
+                <div class="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800">Ecrit le {{ article.createdAt | date('d/m/Y')}}  </div>
+                <div>{{ article.category }}</div>
+                <div class="content">
+                    <img src="{{ article.image }}" alt="">
+                    <br>
+                    <div class="text-base font-light leading-relaxed mt-0 mb-4 text-blueGray-800">{{ article.content | raw }}</div>
+
+                </div>
+
+        <section id="commentaires">
+            <h2>{{ article.comments | length }} commentaires :</h2>
+
+            {% for comment in article.comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        {{comment.author}} (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
+                    </div>
+                    <div class="col">
+                        {{comment.content | raw}}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <br>
+            {{ form_start(commentForm) }}
+            {{ form_row(commentForm.author, {'attr': {'placeholder': "Votre nom"}}) }}
+            {{ form_row(commentForm.content, {'attr': {'placeholder': "Votre commentaire"}}) }}
+            <button type="submit">Commenter</button>
+            {{ form_end(commentForm) }}
+
+
+        </section>
+    {% include('footer.html.twig') %}
+
+    {% endblock %}
